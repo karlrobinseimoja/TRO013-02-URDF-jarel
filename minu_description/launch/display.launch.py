@@ -6,6 +6,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
@@ -20,10 +21,13 @@ def generate_launch_description():
         'use_sim_time', default_value='false',
     )
 
-    robot_description = Command([
-        'xacro ', LaunchConfiguration('model'),
-        ' use_sim:=', use_sim_time,
-    ])
+    robot_description = ParameterValue(
+    Command([
+        'xacro ',
+        LaunchConfiguration('model')
+    ]),
+    value_type=str
+)
 
     robot_state_publisher = Node(
         package='robot_state_publisher',
